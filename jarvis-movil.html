@@ -184,10 +184,194 @@ input:focus{border-color:var(--cyan);box-shadow:0 0 12px rgba(0,202,255,.13)}
 <section class="panel">
   <div class="section-label"><span>◈ TERMINAL DE CONVERSACIÓN</span><span id="chatCount">01 MSG</span></div>
   <div class="chat" id="chat" aria-live="polite">
-    <div class="msg bot"><span class="msg-label">JARVIS / SISTEMA</span>Hola señor . Sistemas preparados. ¿En qué puedo ayudarte?</div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#030812">
+<title>J.A.R.V.I.S. | Mobile Interface</title>
+
+<style>
+:root{
+  --cyan:#43eaff;
+  --blue:#078cff;
+  --red:#ff405d;
+  --green:#47ffc2;
+  --bg:#030812;
+  --panel:rgba(5,20,36,.88);
+  --line:rgba(46,210,255,.38);
+  --muted:#7196ad;
+}
+*{box-sizing:border-box}
+html{min-height:100%;background:var(--bg)}
+body{
+  margin:0;min-height:100vh;min-height:100dvh;
+  color:#d9faff;
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(ellipse at 50% 22%,#092a42 0%,transparent 43%),
+    radial-gradient(ellipse at 0% 60%,#071528,transparent 55%),var(--bg);
+  overflow-x:hidden;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  opacity:.15;
+  background-image:linear-gradient(#117a9b 1px,transparent 1px),
+  linear-gradient(90deg,#117a9b 1px,transparent 1px);
+  background-size:32px 32px;
+  mask-image:linear-gradient(to bottom,black,transparent 85%);
+}
+button,input{font:inherit}
+button{touch-action:manipulation}
+.app{position:relative;z-index:1;max-width:540px;margin:auto;padding:0 14px 24px}
+header{
+  text-align:center;padding:calc(20px + env(safe-area-inset-top)) 8px 14px;
+  border-bottom:1px solid var(--line);
+  position:relative;
+}
+.header-top{display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--muted);letter-spacing:1px}
+.live-dot{display:inline-block;width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 12px var(--green);margin-right:5px}
+.brand{
+  font-size:clamp(32px,9vw,45px);font-weight:300;letter-spacing:.24em;
+  padding-left:.24em;color:#d5faff;
+  text-shadow:0 0 10px #00cfff,0 0 28px #007dff;margin-top:15px
+}
+.subtitle{font-size:9px;letter-spacing:.36em;color:var(--cyan);margin-top:7px}
+.system-line{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;font-size:10px;color:var(--green);margin-top:15px}
+.section-label{font-size:10px;letter-spacing:2px;color:var(--cyan);display:flex;justify-content:space-between;gap:8px}
+.reactor-area{position:relative;display:grid;place-items:center;padding:20px 0 8px}
+.reactor{
+  width:min(66vw,260px);aspect-ratio:1;position:relative;border-radius:50%;
+  display:grid;place-items:center;
+  background:repeating-radial-gradient(circle,rgba(5,25,43,.3) 0 13px,rgba(0,190,255,.1) 14px 16px,transparent 17px 22px);
+  filter:drop-shadow(0 0 14px rgba(0,174,255,.35));
+}
+.ring{position:absolute;inset:0;border-radius:50%;border:1px solid #178cbd}
+.ring.one{inset:3%;border-width:2px;border-top-color:#a7f8ff;border-bottom-color:#0a426a;animation:spin 13s linear infinite}
+.ring.two{inset:11%;border:2px dashed #18a6d5;animation:spin 18s linear infinite reverse}
+.ring.three{inset:19%;border:4px solid transparent;border-left-color:#40eaff;border-right-color:#087cff;animation:spin 5s linear infinite}
+.ring.four{inset:26%;border:1px solid #43eaff;box-shadow:0 0 18px #007dff,inset 0 0 20px #007dff}
+.core{
+  width:33%;aspect-ratio:1;border-radius:50%;z-index:2;
+  display:grid;place-items:center;text-align:center;
+  color:#00121e;font-weight:bold;font-size:clamp(8px,2.4vw,12px);letter-spacing:1px;
+  background:radial-gradient(circle at 35% 30%,white 0%,#8ff8ff 14%,#16cfff 48%,#0057bd 75%,#001b42 100%);
+  box-shadow:0 0 16px #00cfff,0 0 36px #007bff,0 0 65px #0044aa;
+  animation:corepulse 3s ease-in-out infinite;
+}
+.tick{position:absolute;inset:0;border-radius:50%;border:7px dotted rgba(53,224,255,.48);transform:rotate(18deg)}
+.reactor-area.listening .reactor{filter:drop-shadow(0 0 24px #00ffcc)}
+.reactor-area.listening .core{background:radial-gradient(circle,white,#6affd3 35%,#00a985 75%);box-shadow:0 0 35px #00ffc8}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes corepulse{0%,100%{transform:scale(.96);opacity:.9}50%{transform:scale(1.04);opacity:1}}
+.reactor-caption{text-align:center;font-size:11px;letter-spacing:2px;color:#9cefff;margin:8px 0 4px}
+.reactor-hint{text-align:center;font-size:10px;color:var(--muted);margin-bottom:16px}
+.panel{
+  border:1px solid var(--line);border-radius:12px;
+  background:linear-gradient(140deg,rgba(7,31,49,.93),rgba(3,12,25,.93));
+  padding:13px;margin:12px 0;position:relative;overflow:hidden;
+  box-shadow:0 7px 24px rgba(0,0,0,.15),inset 0 0 20px rgba(0,136,255,.035)
+}
+.panel:before{content:"";position:absolute;left:0;top:0;width:38px;height:2px;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+.metric{background:rgba(0,0,0,.22);border:1px solid rgba(52,176,218,.2);border-radius:8px;padding:10px 4px;text-align:center;min-width:0}
+.metric-value{font-size:clamp(15px,4vw,19px);color:var(--cyan);font-variant-numeric:tabular-nums;white-space:nowrap}
+.metric-name{font-size:9px;color:var(--muted);margin-top:6px;letter-spacing:.8px}
+.bars{display:flex;align-items:center;justify-content:center;gap:3px;height:22px;margin-top:8px}
+.bars span{width:3px;height:5px;border-radius:3px;background:var(--cyan);opacity:.55}
+.bars.active span{animation:equalize .65s ease-in-out infinite alternate}
+.bars.active span:nth-child(3n){animation-delay:.2s}
+.bars.active span:nth-child(2n){animation-delay:.4s}
+@keyframes equalize{to{height:20px;opacity:1;box-shadow:0 0 7px var(--cyan)}}
+.quick-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:12px 0}
+.action{
+  min-height:65px;border:1px solid #11688e;border-radius:10px;
+  background:linear-gradient(135deg,#08233a,#04101e);color:#c8f5ff;
+  padding:11px 9px;text-align:left;display:flex;align-items:center;gap:10px;
+}
+.action:active,.send:active{transform:scale(.98);background:#0a3650}
+.action-icon{font-size:21px;color:var(--cyan);width:27px;text-align:center}
+.action strong{display:block;font-size:11px;letter-spacing:.6px}
+.action small{display:block;font-size:10px;color:var(--muted);margin-top:5px}
+.chat{height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin:12px 0;scrollbar-color:#12678a transparent;scrollbar-width:thin}
+.msg{font-size:13px;line-height:1.5;padding:10px 12px;border-radius:10px;max-width:90%;overflow-wrap:anywhere;white-space:pre-wrap}
+.bot{align-self:flex-start;background:#082b40;border:1px solid #116287;border-bottom-left-radius:2px}
+.user{align-self:flex-end;background:#073b59;border:1px solid #128ac0;border-bottom-right-radius:2px}
+.msg-label{display:block;color:var(--cyan);font-size:9px;letter-spacing:1px;margin-bottom:5px}
+.sendrow{display:flex;gap:8px}
+input{
+  min-width:0;width:100%;flex:1;background:#020b14;border:1px solid #155778;
+  border-radius:9px;color:white;padding:13px 11px;font-size:16px;outline:none
+}
+input:focus{border-color:var(--cyan);box-shadow:0 0 12px rgba(0,202,255,.13)}
+.send{width:49px;flex-shrink:0;border:0;border-radius:9px;background:var(--cyan);color:#00111a;font-size:22px;font-weight:bold}
+.voice-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.secondary{border:1px solid #14658a;background:#071b2c;color:#bdefff;border-radius:9px;padding:12px 6px;font-size:11px}
+.secondary.active{border-color:var(--green);color:var(--green)}
+.footer{text-align:center;color:#496e83;font-size:9px;letter-spacing:1.5px;padding:18px 0 5px}
+.red{color:var(--red)}
+@media(min-width:430px){.app{padding-left:20px;padding-right:20px}.chat{height:250px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="header-top">
+    <span><span class="live-dot"></span>CORE ONLINE</span>
+    <span>MARK VII <span class="red">◆</span></span>
+  </div>
+  <div class="brand">J.A.R.V.I.S.</div>
+  <div class="subtitle">JUST A RATHER VERY INTELLIGENT SYSTEM</div>
+  <div class="system-line"><span>● INTERFAZ ACTIVA</span><span id="voiceStatus">VOZ EN ESPERA</span></div>
+</header>
+
+<section class="reactor-area" id="reactorArea" aria-label="Reactor animado de JARVIS">
+  <div class="reactor">
+    <div class="ring one"></div><div class="ring two"></div>
+    <div class="ring three"></div><div class="ring four"></div><div class="tick"></div>
+    <div class="core">J.A.R.<br>V.I.S.</div>
+  </div>
+</section>
+<div class="reactor-caption" id="reactorCaption">SISTEMA PREPARADO</div>
+<div class="reactor-hint">ASISTENTE PERSONAL · INTERFAZ MÓVIL</div>
+
+<section class="panel">
+  <div class="section-label"><span>◈ ESTADO DEL SISTEMA</span><span>LIVE</span></div>
+  <div class="metrics">
+    <div class="metric">
+      <div class="metric-value" id="clock">--:--</div>
+      <div class="metric-name">HORA LOCAL</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value" id="date">--/--</div>
+      <div class="metric-name">FECHA</div>
+    </div>
+    <div class="metric">
+      <div class="metric-value" id="mode">LISTO</div>
+      <div class="metric-name">MODO</div>
+    </div>
+  </div>
+  <div class="section-label" style="margin-top:16px"><span>◈ CANAL DE AUDIO</span><span id="audioLabel">STANDBY</span></div>
+  <div class="bars" id="audioBars"></div>
+</section>
+
+<div class="section-label"><span>◈ ACCESO RÁPIDO</span><span>04 TOOLS</span></div>
+<div class="quick-actions">
+  <button class="action" id="greet"><span class="action-icon">◉</span><span><strong>ACTIVAR JARVIS</strong><small>Saludo por voz</small></span></button>
+  <button class="action" id="timeBtn"><span class="action-icon">◷</span><span><strong>CONSULTAR HORA</strong><small>Tiempo local</small></span></button>
+  <button class="action" id="dateBtn"><span class="action-icon">▦</span><span><strong>CONSULTAR FECHA</strong><small>Calendario</small></span></button>
+  <button class="action" id="clearBtn"><span class="action-icon">⌫</span><span><strong>REINICIAR CHAT</strong><small>Limpiar mensajes</small></span></button>
+</div>
+
+<section class="panel">
+  <div class="section-label"><span>◈ TERMINAL DE CONVERSACIÓN</span><span id="chatCount">01 MSG</span></div>
+  <div class="chat" id="chat" aria-live="polite">
+    <div class="msg bot"><span class="msg-label">JARVIS / SISTEMA</span>Hola señor stark como estuvo su dia . Sistemas preparados. ¿En qué puedo ayudarte?</div>
   </div>
   <form class="sendrow" id="form">
-    <input id="input" type="text" placeholder="Escribe tu mensaje, amo..." autocomplete="off" aria-label="Mensaje para JARVIS">
+    <input id="input" type="text" placeholder="Escribe tu mensaje, señor..." autocomplete="off" aria-label="Mensaje para JARVIS">
     <button class="send" type="submit" aria-label="Enviar mensaje">➤</button>
   </form>
   <div class="voice-row">
@@ -271,7 +455,181 @@ function respond(message){
   }else if(lower.includes("cómo estás")||lower.includes("como estas")){
     answer="Funcionando correctamente, señor. Estoy listo para ayudarte.";
   }else if(lower.includes("hora")){
-    answer="Amo, son las "+new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})+".";
+    answer="señor, son las "+new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})+".";
+  }else if(lower.includes("fecha")||lower.includes("qué día")||lower.includes("que dia")){
+    answer="Hoy es "+new Date().toLocaleDateString("es-CL",{weekday:"long",day:"numeric",month:"long",year:"numeric"})+".";
+  }else if(lower.includes("quién eres")||lower.includes("quien eres")){
+    answer="Soy JARVIS, tu asistente personal. Siempre a tu servicio, señor.";
+  }else if(lower.includes("gracias")){
+    answer="Siempre a tu servicio, señor.";
+  }else if(lower.includes("ayuda")){
+    answer="Puedes preguntarme la hora, la fecha, decir hola o preguntarme cómo estoy. La conexión a una inteligencia artificial todavía está pendiente.";
+  }else{
+    answer="Te escucho, señor. Esta versión todavía no está conectada a una inteligencia artificial en línea.";
+  }
+  addMessage(answer);
+  $("reactorCaption").textContent="RESPUESTA GENERADA";
+  speak(answer);
+}
+$("form").addEventListener("submit",e=>{
+  e.preventDefault();
+  const value=$("input").value;
+  $("input").value="";
+  respond(value);
+});
+$("greet").addEventListener("click",()=>{speak("Hola señor.");setStatus("ACTIVO","SALUDO","A TU SERVICIO, señor");});
+$("timeBtn").addEventListener("click",()=>respond("¿Qué hora es?"));
+$("dateBtn").addEventListener("click",()=>respond("¿Qué fecha es hoy?"));
+$("clearBtn").addEventListener("click",()=>{
+  if("speechSynthesis" in window)window.speechSynthesis.cancel();
+  chat.replaceChildren();
+  messageCount=0;
+  $("chatCount").textContent="00 MSG";
+  addMessage("Terminal reiniciada. A tu servicio, señor.");
+  setStatus("LISTO","VOZ EN ESPERA","SISTEMA PREPARADO");
+});
+$("muteBtn").addEventListener("click",()=>{
+  muted=!muted;
+  $("muteBtn").textContent=muted?"🔇 VOZ SILENCIADA":"🔊 VOZ ACTIVADA";
+  $("muteBtn").classList.toggle("active",muted);
+  if(muted&&"speechSynthesis" in window)window.speechSynthesis.cancel();
+});
+const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+$("voiceBtn").addEventListener("click",()=>{
+  if(listening&&recognition){
+    recognition.stop();
+    return;
+  }
+  if(!SpeechRecognition){
+    addMessage("El reconocimiento de voz no está disponible en este navegador. Prueba Google Chrome y permite el acceso al micrófono.");
+    setStatus("LIMITADO","MICRÓFONO NO DISPONIBLE","PRUEBA CHROME");
+    return;
+  }
+  try{
+    recognition=new SpeechRecognition();
+    recognition.lang="es-CL";
+    recognition.interimResults=false;
+    recognition.maxAlternatives=1;
+    recognition.onstart=()=>{
+      listening=true;
+      $("voiceBtn").textContent="■ DETENER MICRÓFONO";
+      $("voiceBtn").classList.add("active");
+      bars.classList.add("active");
+      $("audioLabel").textContent="ESCUCHANDO";
+      $("reactorArea").classList.add("listening");
+      setStatus("ESCUCHA","MICRÓFONO ACTIVO","TE ESTOY ESCUCHANDO, señor");
+    };
+    recognition.onresult=e=>respond(e.results[0][0].transcript);
+    recognition.onerror=e=>{
+      if(e.error!=="no-speech"&&e.error!=="aborted")
+        addMessage("No pude usar el micrófono ("+e.error+"). Revisa los permisos del navegador.");
+    };
+    recognition.onend=()=>{
+      listening=false;
+      $("voiceBtn").textContent="🎙 ACTIVAR MICRÓFONO";
+      $("voiceBtn").classList.remove("active");
+      bars.classList.remove("active");
+      $("audioLabel").textContent="STANDBY";
+      $("reactorArea").classList.remove("listening");
+      setStatus("LISTO","VOZ EN ESPERA","SISTEMA PREPARADO");
+    };
+    recognition.start();
+  }catch(error){
+    addMessage("No se pudo iniciar el micrófono. Comprueba los permisos y vuelve a intentarlo.");
+  }
+});
+</script>
+</body>
+</html>
+
+    <div class="msg bot"><span class="msg-label">JARVIS / SISTEMA</span>Hola señor . Sistemas preparados. ¿En qué puedo ayudarte?</div>
+  </div>
+  <form class="sendrow" id="form">
+    <input id="input" type="text" placeholder="Escribe tu mensaje, señor..." autocomplete="off" aria-label="Mensaje para JARVIS">
+    <button class="send" type="submit" aria-label="Enviar mensaje">➤</button>
+  </form>
+  <div class="voice-row">
+    <button class="secondary" id="voiceBtn">🎙 ACTIVAR MICRÓFONO</button>
+    <button class="secondary" id="muteBtn">🔊 VOZ ACTIVADA</button>
+  </div>
+</section>
+<div class="footer">J.A.R.V.I.S. MOBILE SYSTEMS · V1.2</div>
+</div>
+
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const chat=$("chat");
+let muted=false;
+let recognition=null;
+let listening=false;
+let messageCount=1;
+
+const bars=$("audioBars");
+for(let i=0;i<25;i++){
+  const bar=document.createElement("span");
+  bars.appendChild(bar);
+}
+
+function updateClock(){
+  const now=new Date();
+  $("clock").textContent=now.toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"});
+  $("date").textContent=now.toLocaleDateString("es-CL",{day:"2-digit",month:"2-digit"});
+}
+updateClock();
+setInterval(updateClock,1000);
+
+function setStatus(mode,status,caption){
+  $("mode").textContent=mode;
+  $("voiceStatus").textContent=status;
+  $("reactorCaption").textContent=caption;
+}
+function addMessage(text,who="bot"){
+  const div=document.createElement("div");
+  div.className="msg "+who;
+  const label=document.createElement("span");
+  label.className="msg-label";
+  label.textContent=who==="user"?"TÚ / COMANDO":"JARVIS / SISTEMA";
+  div.appendChild(label);
+  div.appendChild(document.createTextNode(text));
+  chat.appendChild(div);
+  chat.scrollTop=chat.scrollHeight;
+  messageCount++;
+  $("chatCount").textContent=String(messageCount).padStart(2,"0")+" MSG";
+}
+function speak(text){
+  if(muted)return;
+  if(!("speechSynthesis" in window)){
+    $("voiceStatus").textContent="VOZ NO DISPONIBLE";
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utterance=new SpeechSynthesisUtterance(text);
+  utterance.lang="es-CL";
+  utterance.rate=.92;
+  utterance.pitch=.85;
+  utterance.volume=1;
+  const voices=window.speechSynthesis.getVoices();
+  const voice=voices.find(v=>v.lang.toLowerCase()==="es-cl")
+    ||voices.find(v=>v.lang.toLowerCase().startsWith("es"));
+  if(voice)utterance.voice=voice;
+  utterance.onstart=()=>setStatus("VOZ","HABLANDO","TRANSMITIENDO RESPUESTA");
+  utterance.onend=()=>setStatus("LISTO","VOZ EN ESPERA","SISTEMA PREPARADO");
+  utterance.onerror=()=>setStatus("LISTO","VOZ EN ESPERA","SISTEMA PREPARADO");
+  window.speechSynthesis.speak(utterance);
+}
+function respond(message){
+  const text=message.trim();
+  if(!text)return;
+  addMessage(text,"user");
+  const lower=text.toLocaleLowerCase("es");
+  let answer;
+  if(lower.includes("hola jarvis")||lower==="hola"||lower.includes("buenos días")||lower.includes("buenos dias")){
+    answer="Hola señor.";
+  }else if(lower.includes("cómo estás")||lower.includes("como estas")){
+    answer="Funcionando correctamente, señor. Estoy listo para ayudarte.";
+  }else if(lower.includes("hora")){
+    answer="señor, son las "+new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})+".";
   }else if(lower.includes("fecha")||lower.includes("qué día")||lower.includes("que dia")){
     answer="Hoy es "+new Date().toLocaleDateString("es-CL",{weekday:"long",day:"numeric",month:"long",year:"numeric"})+".";
   }else if(lower.includes("quién eres")||lower.includes("quien eres")){
@@ -293,7 +651,7 @@ $("form").addEventListener("submit",e=>{
   $("input").value="";
   respond(value);
 });
-$("greet").addEventListener("click",()=>{speak("Hola señor.");setStatus("ACTIVO","SALUDO","A TU SERVICIO, AMO");});
+$("greet").addEventListener("click",()=>{speak("Hola señor.");setStatus("ACTIVO","SALUDO","A TU SERVICIO, señor");});
 $("timeBtn").addEventListener("click",()=>respond("¿Qué hora es?"));
 $("dateBtn").addEventListener("click",()=>respond("¿Qué fecha es hoy?"));
 $("clearBtn").addEventListener("click",()=>{
