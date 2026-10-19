@@ -2,221 +2,113 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#07111f">
-  <title>J.A.R.V.I.S.</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: radial-gradient(circle at top, #123d59, #07111f 65%);
-      color: #e8faff;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 18px;
-    }
-    main { width: 100%; max-width: 520px; text-align: center; }
-    h1 {
-      color: #65ddff;
-      letter-spacing: 7px;
-      text-shadow: 0 0 18px #29baff;
-    }
-    .core {
-      width: 120px;
-      height: 120px;
-      border: 3px solid #65ddff;
-      border-radius: 50%;
-      margin: 20px auto;
-      display: grid;
-      place-items: center;
-      font-size: 42px;
-      color: #65ddff;
-      box-shadow: 0 0 30px #29baff88, inset 0 0 25px #29baff44;
-      animation: pulse 3s infinite;
-    }
-    @keyframes pulse {
-      50% { box-shadow: 0 0 45px #29baffaa, inset 0 0 35px #29baff66; }
-    }
-    .panel {
-      background: #0c1c2eee;
-      border: 1px solid #28627e;
-      border-radius: 18px;
-      padding: 16px;
-      text-align: left;
-    }
-    #chat {
-      height: 260px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-      line-height: 1.5;
-      overflow-wrap: anywhere;
-    }
-    .jarvis { color: #65ddff; margin: 12px 0; }
-    .user { color: white; margin: 12px 0; }
-    .controls { display: flex; gap: 8px; margin-top: 14px; }
-    input {
-      min-width: 0;
-      flex: 1;
-      padding: 13px;
-      border-radius: 10px;
-      border: 1px solid #28627e;
-      background: #071522;
-      color: white;
-      font-size: 16px;
-    }
-    button {
-      padding: 12px;
-      border: 0;
-      border-radius: 10px;
-      background: #65ddff;
-      color: #06121b;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .secondary { background: #193a50; color: white; }
-    .hint { color: #a9c9d9; font-size: 12px; line-height: 1.5; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#07111f">
+<title>J.A.R.V.I.S.</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(circle at top,#123d59,#07111f 65%);color:#e8faff;font-family:Arial,sans-serif;display:flex;justify-content:center;align-items:center;padding:18px}
+main{width:100%;max-width:520px;text-align:center}
+h1{color:#65ddff;letter-spacing:7px;text-shadow:0 0 18px #29baff}
+.core{width:120px;height:120px;border:3px solid #65ddff;border-radius:50%;margin:20px auto;display:grid;place-items:center;font-size:42px;color:#65ddff;box-shadow:0 0 30px #29baff88,inset 0 0 25px #29baff44}
+.panel{background:#0c1c2eee;border:1px solid #28627e;border-radius:18px;padding:16px;text-align:left}
+#chat{height:260px;overflow-y:auto;white-space:pre-wrap;line-height:1.5;overflow-wrap:anywhere}
+.jarvis{color:#65ddff;margin:12px 0}
+.user{color:white;margin:12px 0}
+.controls{display:flex;gap:8px;margin-top:14px}
+input{min-width:0;flex:1;padding:13px;border-radius:10px;border:1px solid #28627e;background:#071522;color:white;font-size:16px}
+button{padding:12px;border:0;border-radius:10px;background:#65ddff;color:#06121b;font-weight:bold;cursor:pointer}
+.secondary{background:#193a50;color:white}
+.hint{color:#a9c9d9;font-size:12px;line-height:1.5}
+</style>
 </head>
 <body>
 <main>
-  <div class="core">J</div>
-  <h1>J.A.R.V.I.S.</h1>
-  <p>ASISTENTE PERSONAL</p>
-
-  <section class="panel">
-    <div id="chat" aria-live="polite">
-      <div class="jarvis">JARVIS: Sistema iniciado. Hola amo.</div>
-    </div>
-
-    <div class="controls">
-      <button id="voice">🎙️ Hablar</button>
-      <button id="greet" class="secondary">🔊 Saludo</button>
-    </div>
-
-    <div class="controls">
-      <input id="message" placeholder="Escribe aquí, amo...">
-      <button id="send">Enviar</button>
-    </div>
-
-    <p class="hint">
-      Concede permiso al micrófono cuando el navegador lo solicite.
-      La disponibilidad del reconocimiento de voz depende del navegador.
-    </p>
-  </section>
+<div class="core">J</div>
+<h1>J.A.R.V.I.S.</h1>
+<p>ASISTENTE PERSONAL</p>
+<section class="panel">
+<div id="chat" aria-live="polite"><div class="jarvis">JARVIS: Sistema iniciado. Hola amo.</div></div>
+<div class="controls">
+<button id="voice">🎙️ Hablar</button>
+<button id="greet" class="secondary">🔊 Saludo</button>
+</div>
+<div class="controls">
+<input id="message" placeholder="Escribe aquí, amo...">
+<button id="send">Enviar</button>
+</div>
+<p class="hint">Concede permiso al micrófono cuando el navegador lo solicite.</p>
+</section>
 </main>
-
 <script>
-const chat = document.getElementById("chat");
-const input = document.getElementById("message");
-
-function line(who, text, type) {
-  const div = document.createElement("div");
-  div.className = type;
-  div.textContent = who + ": " + text;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
+const chat=document.getElementById("chat");
+const input=document.getElementById("message");
+function line(who,text,type){
+ const div=document.createElement("div");
+ div.className=type;
+ div.textContent=who+": "+text;
+ chat.appendChild(div);
+ chat.scrollTop=chat.scrollHeight;
 }
-
-function speak(text) {
-  if (!("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
-  const speech = new SpeechSynthesisUtterance(text);
-  speech.lang = "es-CL";
-  speech.pitch = 0.85;
-  speech.rate = 0.95;
-  window.speechSynthesis.speak(speech);
+function speak(text){
+ if(!("speechSynthesis" in window))return;
+ window.speechSynthesis.cancel();
+ const speech=new SpeechSynthesisUtterance(text);
+ speech.lang="es-CL";
+ speech.pitch=0.85;
+ speech.rate=0.95;
+ window.speechSynthesis.speak(speech);
 }
-
-function respond(message) {
-  const text = message.trim().toLowerCase();
-  if (!text) return;
-
-  line("Tú", message, "user");
-  let answer;
-
-  if (text.includes("hola jarvis") ||
-      text.includes("hola jarviz") ||
-      text === "hola") {
-    answer = "Hola amo";
-  } else if (text.includes("hora")) {
-    answer = "Son las " +
-      new Date().toLocaleTimeString("es-CL", {
-        hour: "2-digit", minute: "2-digit"
-      }) + ", amo.";
-  } else if (text.includes("fecha") || text.includes("día es")) {
-    answer = "Hoy es " +
-      new Date().toLocaleDateString("es-CL", {
-        dateStyle: "full"
-      }) + ", amo.";
-  } else if (text.includes("abre youtube")) {
-    answer = "Abriendo YouTube, amo.";
-    window.open("https://www.youtube.com", "_blank", "noopener");
-  } else if (text.includes("abre google")) {
-    answer = "Abriendo Google, amo.";
-    window.open("https://www.google.com", "_blank", "noopener");
-  } else if (text.includes("ayuda")) {
-    answer = "Puedo saludarte, decirte la hora y la fecha, y abrir Google o YouTube. Todavía estoy en mi versión inicial.";
-  } else {
-    answer = "Todavía no tengo esa función, amo. Escribe ayuda para conocer mis capacidades.";
-  }
-
-  line("JARVIS", answer, "jarvis");
-  speak(answer);
+function respond(message){
+ const text=message.trim().toLowerCase();
+ if(!text)return;
+ line("Tú",message,"user");
+ let answer;
+ if(text.includes("hola jarvis")||text.includes("hola jarviz")||text==="hola"){
+  answer="Hola amo";
+ }else if(text.includes("hora")){
+  answer="Son las "+new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})+", amo.";
+ }else if(text.includes("fecha")||text.includes("día es")){
+  answer="Hoy es "+new Date().toLocaleDateString("es-CL",{dateStyle:"full"})+", amo.";
+ }else if(text.includes("abre youtube")){
+  answer="Abriendo YouTube, amo.";
+  window.open("https://www.youtube.com","_blank","noopener");
+ }else if(text.includes("abre google")){
+  answer="Abriendo Google, amo.";
+  window.open("https://www.google.com","_blank","noopener");
+ }else if(text.includes("ayuda")){
+  answer="Puedo saludarte, decirte la hora y la fecha, y abrir Google o YouTube. Todavía estoy en mi versión inicial.";
+ }else{
+  answer="Todavía no tengo esa función, amo. Escribe ayuda para conocer mis capacidades.";
+ }
+ line("JARVIS",answer,"jarvis");
+ speak(answer);
 }
-
-document.getElementById("send").addEventListener("click", () => {
+document.getElementById("send").addEventListener("click",()=>{
+ respond(input.value);
+ input.value="";
+});
+input.addEventListener("keydown",event=>{
+ if(event.key==="Enter"){
   respond(input.value);
-  input.value = "";
+  input.value="";
+ }
 });
-
-input.addEventListener("keydown", event => {
-  if (event.key === "Enter") {
-    respond(input.value);
-    input.value = "";
-  }
-});
-
-document.getElementById("greet").addEventListener("click", () => {
-  speak("Hola amo");
-});
-
-document.getElementById("voice").addEventListener("click", () => {
-  const Recognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
-
-  if (!Recognition) {
-    line("JARVIS",
-      "El reconocimiento de voz no está disponible en este navegador. Puedes escribirme.",
-      "jarvis");
-    return;
-  }
-
-  const recognition = new Recognition();
-  recognition.lang = "es-CL";
-  recognition.onstart = () => {
-    document.getElementById("voice").textContent = "🎙️ Escuchando...";
-  };
-  recognition.onresult = event => {
-    respond(event.results[0][0].transcript);
-  };
-  recognition.onerror = () => {
-    line("JARVIS",
-      "No pude escucharte. Comprueba el permiso del micrófono.",
-      "jarvis");
-  };
-  recognition.onend = () => {
-    document.getElementById("voice").textContent = "🎙️ Hablar";
-  };
-
-  try {
-    recognition.start();
-  } catch (error) {
-    line("JARVIS", "Espera un momento e inténtalo de nuevo.", "jarvis");
-  }
+document.getElementById("greet").addEventListener("click",()=>speak("Hola amo"));
+document.getElementById("voice").addEventListener("click",()=>{
+ const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+ if(!Recognition){
+  line("JARVIS","El reconocimiento de voz no está disponible en este navegador. Puedes escribirme.","jarvis");
+  return;
+ }
+ const recognition=new Recognition();
+ recognition.lang="es-CL";
+ recognition.onstart=()=>document.getElementById("voice").textContent="🎙️ Escuchando...";
+ recognition.onresult=event=>respond(event.results[0][0].transcript);
+ recognition.onerror=()=>line("JARVIS","No pude escucharte. Comprueba el permiso del micrófono.","jarvis");
+ recognition.onend=()=>document.getElementById("voice").textContent="🎙️ Hablar";
+ try{recognition.start()}catch(error){}
 });
 </script>
 </body>
