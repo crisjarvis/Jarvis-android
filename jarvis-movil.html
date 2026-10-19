@@ -28,14 +28,17 @@ body{
   color: #d9faff;
   font-family: Arial, Helvetica, sans-serif;
   background:
-    radial-gradient(ellipse at 50% 35%, rgba(0, 180, 255, 0.20), transparent 38%),
-    radial-gradient(ellipse at 10% 10%, rgba(255, 35, 45, 0.18), transparent 40%),
-    radial-gradient(ellipse at 90% 85%, rgba(255, 170, 0, 0.12), transparent 35%),
-    linear-gradient(145deg, #050609 0%, #17080d 45%, #030b12 100%);
-  background-attachment: fixed;
-  overflow-x: hidden;
-  position: relative;
-}
+background-color: #050609;
+background-image:
+  linear-gradient(
+    rgba(0, 0, 0, 0.18),
+    rgba(0, 0, 0, 0.45)
+  ),
+  url("fondo-ironman.png");
+background-size: cover;
+background-position: center top;
+background-repeat: no-repeat;
+background-attachment: fixed;
 
   content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
   opacity:.15;
