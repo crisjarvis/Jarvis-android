@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#020812">
+<title>JARVIS Mobile</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#020812;color:#d9f7ff;
+ font-family:Arial,sans-serif;min-height:100dvh;
+ background-image:radial-gradient(ellipse at 50% 28%,#06304a 0%,#020812 55%);
+}
+header{padding:22px 16px 12px;text-align:center;border-bottom:1px solid #087ba8}
+.brand{font-size:32px;letter-spacing:9px;color:#38dfff;text-shadow:0 0 18px #00aaff}
+.sub{font-size:11px;letter-spacing:3px;color:#7aaec5;margin-top:6px}
+.status{margin-top:14px;font-size:12px;color:#45ffbd}
+main{max-width:520px;margin:auto;padding:16px}
+.reactor-wrap{display:flex;justify-content:center;padding:22px 0 10px}
+.reactor{
+ width:210px;height:210px;border-radius:50%;
+ display:grid;place-items:center;position:relative;
+ border:2px solid #0c8fc8;
+ box-shadow:0 0 18px #007dbb,inset 0 0 24px #006b9c;
+ background:repeating-radial-gradient(circle,#061b2b 0 14px,#06334b 16px 18px,#020812 20px 25px);
+}
+.reactor:before,.reactor:after{
+ content:"";position:absolute;border-radius:50%;
+ border:3px dashed #25cfff;inset:12px;
+ animation:spin 12s linear infinite;
+}
+.reactor:after{inset:34px;border:5px solid #087cae;border-left-color:#62f4ff;animation-direction:reverse;animation-duration:5s}
+.core{width:72px;height:72px;border-radius:50%;background:#18cfff;
+ box-shadow:0 0 18px #00cfff,0 0 50px #007fff;
+ display:grid;place-items:center;color:#00131f;font-weight:bold;font-size:12px;z-index:1}
+@keyframes spin{to{transform:rotate(360deg)}}
+.tagline{text-align:center;color:#7fdfff;font-size:14px;margin:15px 0 22px}
+.panel{border:1px solid #087da8;border-radius:14px;background:#041321;padding:14px;margin:12px 0;box-shadow:0 0 15px #00304a}
+.panel-title{color:#38dfff;font-size:12px;letter-spacing:2px;margin-bottom:12px}
+#chat{height:190px;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
+.msg{padding:10px 12px;border-radius:12px;max-width:88%;font-size:14px;line-height:1.45;overflow-wrap:anywhere}
+.bot{align-self:flex-start;background:#082b40;border:1px solid #087ba8}
+.user{align-self:flex-end;background:#06466c;border:1px solid #0a9ad0}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{font:inherit;cursor:pointer;color:#bdefff;background:#06253a;border:1px solid #0787b9;border-radius:12px;padding:14px 8px}
+button:active{background:#075276}
+button strong{display:block;font-size:17px;margin-bottom:5px;color:#45dfff}
+button small{font-size:11px}
+.sendrow{display:flex;gap:8px}
+input{min-width:0;flex:1;background:#020b15;border:1px solid #087da8;border-radius:10px;padding:13px;color:white;font-size:16px}
+#send{padding:0 17px;color:#00111a;background:#22cfff;font-weight:bold}
+footer{text-align:center;font-size:11px;color:#537f96;padding:20px}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand">JARVIS</div>
+ <div class="sub">ASISTENTE PERSONAL</div>
+ <div class="status" id="status">● SISTEMA EN LÍNEA</div>
+</header>
+
+<main>
+ <div class="reactor-wrap">
+  <div class="reactor"><div class="core">J.A.R.V.I.S</div></div>
+ </div>
+ <div class="tagline" id="tagline">Estoy listo, amo. ¿Qué necesitas?</div>
+
+ <section class="panel">
+  <div class="panel-title">◈ CONVERSACIÓN</div>
+  <div id="chat" aria-live="polite">
+   <div class="msg bot">Hola amo. Sistemas preparados.</div>
+  </div>
+ </section>
+
+ <div class="controls">
+  <button id="voice"><strong>🎙️ HABLAR</strong><small>Usar micrófono</small></button>
+  <button id="greet"><strong>🔊 VOZ</strong><small>Hola amo</small></button>
+  <button id="time"><strong>◷ HORA</strong><small>Consultar hora</small></button>
+  <button id="clear"><strong>⌫ LIMPIAR</strong><small>Vaciar conversación</small></button>
+ </div>
+
+ <section class="panel">
+  <div class="panel-title">◈ MENSAJE PARA JARVIS</div>
+  <form id="form" class="sendrow">
+   <input id="input" placeholder="Escribe aquí, amo..." autocomplete="off">
+   <button id="send" type="submit">➤</button>
+  </form>
+ </section>
+</main>
+<footer>JARVIS MOBILE · INTERFAZ EXPERIMENTAL</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const chat = $("chat");
+
+function addMessage(text, who="bot"){
+ const div=document.createElement("div");
+ div.className="msg "+who;
+ div.textContent=text;
+ chat.appendChild(div);
+ chat.scrollTop=chat.scrollHeight;
+}
+
+function speak(text){
+ if(!("speechSynthesis" in window)){
+  $("status").textContent="Voz no compatible con este navegador";
+  return;
+ }
+ window.speechSynthesis.cancel();
+ const msg=new SpeechSynthesisUtterance(text);
+ msg.lang="es-CL";
+ msg.rate=0.92;
+ msg.pitch=0.85;
+ const voices=window.speechSynthesis.getVoices();
+ const voice=voices.find(v=>v.lang.toLowerCase()==="es-cl")
+  ||voices.find(v=>v.lang.toLowerCase().startsWith("es"));
+ if(voice)msg.voice=voice;
+ window.speechSynthesis.speak(msg);
+}
+
+function respond(message){
+ const text=message.trim();
+ if(!text)return;
+ addMessage(text,"user");
+ const lower=text.toLowerCase();
+ let answer;
+
+ if(lower.includes("hola jarvis")||lower==="hola"||lower.includes("buenos días")){
+  answer="Hola amo.";
+ }else if(lower.includes("cómo estás")||lower.includes("como estas")){
+  answer="Funcionando correctamente, amo. ¿En qué puedo ayudarte?";
+ }else if(lower.includes("hora")){
+  answer="Amo, son las "+new Date().toLocaleTimeString("es-CL",{hour:"2-digit",minute:"2-digit"})+".";
+ }else if(lower.includes("fecha")||lower.includes("día es")){
+  answer="Hoy es "+new Date().toLocaleDateString("es-CL",{weekday:"long",day:"numeric",month:"long"})+".";
+ }else if(lower.includes("quién eres")||lower.includes("quien eres")){
+  answer="Soy JARVIS, tu asistente personal. Estoy listo para ayudarte, amo.";
+ }else if(lower.includes("gracias")){
+  answer="Siempre a tu servicio, amo.";
+ }else{
+  answer="Te escucho, amo. Esta versión todavía no está conectada a una inteligencia artificial en línea.";
+ }
+ addMessage(answer);
+ $("tagline").textContent=answer;
+ speak(answer);
+}
+
+$("form").addEventListener("submit",e=>{
+ e.preventDefault();
+ respond($("input").value);
+ $("input").value="";
+});
+
+$("greet").addEventListener("click",()=>speak("Hola amo."));
+$("time").addEventListener("click",()=>respond("¿Qué hora es?"));
+$("clear").addEventListener("click",()=>{
+ chat.replaceChildren();
+ addMessage("Conversación limpia, amo.");
+});
+
+const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+$("voice").addEventListener("click",()=>{
+ if(!SpeechRecognition){
+  $("status").textContent="Usa Chrome para probar el micrófono";
+  addMessage("El reconocimiento de voz no está disponible en este navegador. Prueba Chrome y permite el micrófono.");
+  return;
+ }
+ const recognition=new SpeechRecognition();
+ recognition.lang="es-CL";
+ recognition.interimResults=false;
+ recognition.onstart=()=>{$("status").textContent="● ESCUCHANDO, AMO"};
+ recognition.onresult=e=>respond(e.results[0][0].transcript);
+ recognition.onerror=()=>{$("status").textContent="● No se pudo usar el micrófono"};
+ recognition.onend=()=>{$("status").textContent="● SISTEMA EN LÍNEA"};
+ recognition.start();
+});
+</script>
+</body>
+</html>
